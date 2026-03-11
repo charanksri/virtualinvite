@@ -184,23 +184,10 @@ function rsvp(choice) {
   const rs = document.getElementById('responseScreen');
   rs.style.display = 'block';
 
-  const target = new Date('2025-04-12T19:00:00');
-  const diff   = Math.max(0, target - new Date());
-  const days   = Math.floor(diff / 86400000);
-  const hours  = Math.floor((diff % 86400000) / 3600000);
-  const mins   = Math.floor((diff % 3600000)  / 60000);
-
   if (choice === 'yes') {
     rs.innerHTML = `
       <span class="r-emoji">🌸</span>
-      <div class="r-title">She said yes!</div>
-      <p class="r-sub">Oh, this makes my heart bloom.<br>I cannot wait to see your face that evening…</p>
-      <p class="r-note">✦ · · A reminder will find its way to you · · ✦</p>
-      <div class="countdown-wrap">
-        <div class="cd-unit"><span class="cd-num">${days}</span><span class="cd-label">Days</span></div>
-        <div class="cd-unit"><span class="cd-num">${hours}</span><span class="cd-label">Hours</span></div>
-        <div class="cd-unit"><span class="cd-num">${mins}</span><span class="cd-label">Mins</span></div>
-      </div>
+      <div class="r-title">Yes, I will be there.</div>
       <div class="share-section">
         <p class="share-label">Save &amp; share your answer</p>
         <button class="share-btn save-img-btn" id="saveImgBtn" onclick="saveAsImage('yes')">
@@ -215,9 +202,7 @@ function rsvp(choice) {
   } else {
     rs.innerHTML = `
       <span class="r-emoji">🌿</span>
-      <div class="r-title">Until next time…</div>
-      <p class="r-sub">The invitation remains open,<br>whenever you're ready, I'll be waiting.</p>
-      <p class="r-note">✦ · · The door is always ajar · · ✦</p>
+      <div class="r-title">Until next time.</div>
       <div class="share-section">
         <p class="share-label">Save &amp; share your answer</p>
         <button class="share-btn save-img-btn" id="saveImgBtn" onclick="saveAsImage('no')">
