@@ -1,0 +1,83 @@
+:root {
+    --bg-color: #fdfaf6;
+    --accent: #d4a373;
+    --text: #4a4a4a;
+    --white: #ffffff;
+}
+
+body {
+    background-color: var(--bg-color);
+    font-family: 'Georgia', serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    color: var(--text);
+}
+
+.card {
+    background: var(--white);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    text-align: center;
+    max-width: 350px;
+    width: 90%;
+}
+
+.header-image {
+    font-size: 50px;
+    margin-bottom: 20px;
+}
+
+.title {
+    font-size: 24px;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+}
+
+.subtitle {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 30px;
+    color: #777;
+}
+
+.actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    position: relative;
+    height: 50px;
+}
+
+.btn {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.btn-yes {
+    background-color: var(--accent);
+    color: white;
+}
+
+.btn-no {
+    background-color: #eee;
+    color: #888;
+    position: absolute; /* Needed for the "run away" effect */
+    left: 190px;
+}
+
+.hidden {
+    display: none;
+    margin-top: 20px;
+}
+
+.success-msg {
+    color: var(--accent);
+}
