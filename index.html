@@ -1,27 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Special Invitation</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>💌 A Secret Invitation</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Jost:wght@200;300;400&family=Great+Vibes&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-    <div class="card">
-        <div class="header-image">🌹</div>
-        <h1 class="title">Will you be my date?</h1>
-        <p class="subtitle">I’d love to spend an evening with you, filled with good food and even better conversation.</p>
-        
-        <div class="actions">
-            <button id="yesBtn" class="btn btn-yes">Yes, I'd love to!</button>
-            <button id="noBtn" class="btn btn-no">No</button>
+
+  <!-- Custom cursor -->
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+
+  <!-- Animated canvas background -->
+  <canvas id="bgCanvas"></canvas>
+
+  <!-- ══════════════════════════════
+       SCENE 1 — Envelope
+  ══════════════════════════════ -->
+  <div class="page" id="scene1">
+    <p class="pre-text">A secret message has arrived for you</p>
+
+    <div class="envelope-wrap" id="envWrap" onclick="openEnvelope()">
+      <div class="envelope">
+        <div class="env-body">
+          <div class="env-flap-bottom"></div>
+          <div class="env-flap-left"></div>
+          <div class="env-flap-right"></div>
+          <div class="env-letter">You have one new message ✉️</div>
         </div>
-        
-        <div id="response" class="hidden">
-            <h2 class="success-msg">It's a date! ❤️</h2>
-            <p>I'll send you the details soon.</p>
-        </div>
+        <div class="env-lid"></div>
+        <div class="env-seal">💌</div>
+      </div>
+      <div class="env-shadow"></div>
     </div>
-    <script src="script.js"></script>
+
+    <p class="tap-hint">Tap to open</p>
+  </div>
+
+  <!-- ══════════════════════════════
+       SCENE 2 — Invitation Card
+  ══════════════════════════════ -->
+  <div class="page" id="scene2">
+
+    <div class="hero-quote" id="heroQuote">
+      <div class="script">Will you join me?</div>
+      <div class="sub">A spring evening invitation</div>
+    </div>
+
+    <div class="inv-card" id="invCard">
+
+      <!-- Illustration header -->
+      <div class="card-illus">
+        <div class="card-illus-overlay"></div>
+        <span class="bloom">🌸</span>
+        <span class="bloom">🌷</span>
+        <span class="bloom">🌺</span>
+        <span class="bloom">🌼</span>
+        <span class="bloom">🌸</span>
+        <span class="bloom">🌷</span>
+        <span class="bloom">🌻</span>
+        <div class="card-illus-text">"Some moments are too beautiful to keep to myself…"</div>
+      </div>
+
+      <!-- Main content -->
+      <div class="card-content" id="cardMain">
+        <div class="salutation">Dearest You,</div>
+        <p class="message-text">
+          Spring has arrived, the blossoms are out, and all I can think about
+          is spending a magical evening in your company. I've planned something
+          <strong>truly special</strong> — candlelight, soft music, the scent of flowers
+          and a table set just for two. I'd be <strong>honoured</strong> if you'd say yes.
+        </p>
+
+        <div class="details-grid">
+          <div class="detail-tile">
+            <span class="detail-tile-icon">🌷</span>
+            <span class="detail-tile-label">Date</span>
+            <span class="detail-tile-value">Saturday, April 12</span>
+          </div>
+          <div class="detail-tile">
+            <span class="detail-tile-icon">🕯️</span>
+            <span class="detail-tile-label">Time</span>
+            <span class="detail-tile-value">7:00 PM</span>
+          </div>
+          <div class="detail-tile">
+            <span class="detail-tile-icon">🏡</span>
+            <span class="detail-tile-label">Where</span>
+            <span class="detail-tile-value">Rooftop under the stars</span>
+          </div>
+          <div class="detail-tile">
+            <span class="detail-tile-icon">🍾</span>
+            <span class="detail-tile-label">What to wear</span>
+            <span class="detail-tile-value">Whatever makes you smile</span>
+          </div>
+        </div>
+
+        <div class="ornament">
+          <div class="ornament-line"></div>
+          <div class="ornament-icon">✦ ✦ ✦</div>
+          <div class="ornament-line"></div>
+        </div>
+
+        <p class="rsvp-heading">Will you be my date?</p>
+        <div class="btns">
+          <button class="btn btn-yes" onclick="rsvp('yes')">✨ Yes, I'd love to be there</button>
+          <button class="btn btn-maybe" onclick="rsvp('no')">Perhaps another time…</button>
+        </div>
+      </div>
+
+      <!-- Response panel (shown after RSVP) -->
+      <div class="response-screen" id="responseScreen"></div>
+
+      <!-- Ribbon footer -->
+      <div class="card-ribbon">
+        <div class="ribbon-text">With love &amp; longing</div>
+        <div class="ribbon-dots">
+          <div class="ribbon-dot"></div>
+          <div class="ribbon-dot"></div>
+          <div class="ribbon-dot"></div>
+        </div>
+      </div>
+
+    </div><!-- /.inv-card -->
+  </div><!-- /#scene2 -->
+
+  <script src="script.js"></script>
 </body>
 </html>
