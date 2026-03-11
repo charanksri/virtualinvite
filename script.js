@@ -200,6 +200,24 @@ function rsvp(choice) {
         <div class="cd-unit"><span class="cd-num">${days}</span><span class="cd-label">Days</span></div>
         <div class="cd-unit"><span class="cd-num">${hours}</span><span class="cd-label">Hours</span></div>
         <div class="cd-unit"><span class="cd-num">${mins}</span><span class="cd-label">Mins</span></div>
+      </div>
+      <div class="share-section">
+        <p class="share-label">Share your answer</p>
+        <button class="share-btn ig-btn" onclick="shareToInstagram('yes')">
+          <svg class="ig-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="2" width="20" height="20" rx="5.5" stroke="white" stroke-width="1.8" fill="none"/>
+            <circle cx="12" cy="12" r="4.2" stroke="white" stroke-width="1.8" fill="none"/>
+            <circle cx="17.5" cy="6.5" r="1.1" fill="white"/>
+          </svg>
+          Send on Instagram
+        </button>
+        <button class="share-btn copy-btn" onclick="copyMessage('yes')" id="copyBtnYes">
+          <svg class="copy-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="9" y="9" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.8" fill="none"/>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+          Copy message
+        </button>
       </div>`;
     spawnSparkles();
   } else {
@@ -207,7 +225,25 @@ function rsvp(choice) {
       <span class="r-emoji">🌿</span>
       <div class="r-title">Until next time…</div>
       <p class="r-sub">The invitation remains open,<br>whenever you're ready, I'll be waiting.</p>
-      <p class="r-note">✦ · · The door is always ajar · · ✦</p>`;
+      <p class="r-note">✦ · · The door is always ajar · · ✦</p>
+      <div class="share-section">
+        <p class="share-label">Share your answer</p>
+        <button class="share-btn ig-btn" onclick="shareToInstagram('no')">
+          <svg class="ig-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="2" width="20" height="20" rx="5.5" stroke="white" stroke-width="1.8" fill="none"/>
+            <circle cx="12" cy="12" r="4.2" stroke="white" stroke-width="1.8" fill="none"/>
+            <circle cx="17.5" cy="6.5" r="1.1" fill="white"/>
+          </svg>
+          Send on Instagram
+        </button>
+        <button class="share-btn copy-btn" onclick="copyMessage('no')" id="copyBtnNo">
+          <svg class="copy-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="9" y="9" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.8" fill="none"/>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+          Copy message
+        </button>
+      </div>`;
   }
 }
 
@@ -239,4 +275,106 @@ function spawnSparkles() {
   burst(32);
   setTimeout(() => burst(20), 700);
   setTimeout(() => burst(16), 1400);
+}
+
+
+/* ──────────────────────────────────────────
+   INSTAGRAM SHARE
+────────────────────────────────────────── */
+const igMessages = {
+  yes: `🌸 I said YES to the most beautiful invitation!\n\n🌉 Rooftop dinner under the stars\n🕯️ Saturday, April 12 · 7:00 PM\n🌷 Spring is in the air and so is something magical ✨\n\n💌 Can't wait for this evening…`,
+  no:  `🌿 I had to say "maybe next time" to a beautiful spring invitation…\n\n🌸 But the door is always open 🌷\n💌 Whenever the timing is right, I'll be there ✨`
+};
+
+function shareToInstagram(choice) {
+  const msg = igMessages[choice];
+
+  /* On mobile, try to open the Instagram app DM screen.
+     Instagram doesn't support direct pre-filled DMs via URL,
+     so we copy the message first, then open Instagram — the
+     user just pastes into DM. We show a toast explaining this. */
+  navigator.clipboard.writeText(msg).then(() => {
+    showToast('Message copied! Opening Instagram — just paste it into a DM 💌');
+    setTimeout(() => {
+      // Try Instagram app deep link first, fall back to web
+      const ua = navigator.userAgent.toLowerCase();
+      if (/iphone|ipad|android/.test(ua)) {
+        window.location.href = 'instagram://direct-inbox';
+        // fallback after 1.5s if app not installed
+        setTimeout(() => { window.open('https://www.instagram.com/direct/inbox/', '_blank'); }, 1500);
+      } else {
+        window.open('https://www.instagram.com/direct/inbox/', '_blank');
+      }
+    }, 800);
+  }).catch(() => {
+    // Clipboard failed — show manual copy prompt
+    showCopyFallback(msg);
+  });
+}
+
+function copyMessage(choice) {
+  const msg  = igMessages[choice];
+  const btnId = choice === 'yes' ? 'copyBtnYes' : 'copyBtnNo';
+  const btn   = document.getElementById(btnId);
+
+  navigator.clipboard.writeText(msg).then(() => {
+    if (btn) {
+      btn.innerHTML = `<span style="font-size:1rem">✅</span> Copied!`;
+      btn.style.borderColor = '#34c759';
+      btn.style.color       = '#34c759';
+      setTimeout(() => {
+        btn.innerHTML = `<svg class="copy-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="9" y="9" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg> Copy message`;
+        btn.style.borderColor = '';
+        btn.style.color       = '';
+      }, 2500);
+    }
+    showToast('Message copied to clipboard! 📋');
+  }).catch(() => showCopyFallback(msg));
+}
+
+function showToast(msg) {
+  const existing = document.getElementById('shareToast');
+  if (existing) existing.remove();
+
+  const t = document.createElement('div');
+  t.id = 'shareToast';
+  t.textContent = msg;
+  t.style.cssText = `
+    position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: rgba(20,10,8,.92); backdrop-filter: blur(12px);
+    color: #fdf3e9; font-family: 'Jost',sans-serif; font-size: .78rem;
+    font-weight: 300; letter-spacing: .04em;
+    padding: 12px 22px; border-radius: 50px;
+    border: 1px solid rgba(201,137,62,.3);
+    box-shadow: 0 8px 32px rgba(0,0,0,.4);
+    z-index: 9999; white-space: nowrap; max-width: 90vw;
+    opacity: 0; transition: opacity .35s ease, transform .35s ease;
+    text-overflow: ellipsis; overflow: hidden;
+  `;
+  document.body.appendChild(t);
+  requestAnimationFrame(() => {
+    t.style.opacity   = '1';
+    t.style.transform = 'translateX(-50%) translateY(0)';
+  });
+  setTimeout(() => {
+    t.style.opacity   = '0';
+    t.style.transform = 'translateX(-50%) translateY(10px)';
+    setTimeout(() => t.remove(), 400);
+  }, 3500);
+}
+
+function showCopyFallback(msg) {
+  // Textarea select fallback for browsers that block clipboard API
+  const ta = document.createElement('textarea');
+  ta.value = msg;
+  ta.style.cssText = 'position:fixed;top:-999px;left:-999px;opacity:0;';
+  document.body.appendChild(ta);
+  ta.focus(); ta.select();
+  try {
+    document.execCommand('copy');
+    showToast('Message copied! Paste it into an Instagram DM 💌');
+  } catch {
+    showToast('Please copy the message above manually 📋');
+  }
+  document.body.removeChild(ta);
 }
