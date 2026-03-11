@@ -4,47 +4,6 @@
 ══════════════════════════════════════════ */
 
 /* ──────────────────────────────────────────
-   CUSTOM CURSOR
-────────────────────────────────────────── */
-const cur     = document.getElementById('cursor');
-const curRing = document.getElementById('cursor-ring');
-
-let mx = window.innerWidth  / 2;
-let my = window.innerHeight / 2;
-let rx = mx, ry = my;
-
-document.addEventListener('mousemove', e => {
-  mx = e.clientX;
-  my = e.clientY;
-  cur.style.left = mx + 'px';
-  cur.style.top  = my + 'px';
-});
-
-// Lagging ring follows with easing
-(function animRing() {
-  rx += (mx - rx) * .12;
-  ry += (my - ry) * .12;
-  curRing.style.left = rx + 'px';
-  curRing.style.top  = ry + 'px';
-  requestAnimationFrame(animRing);
-})();
-
-// Cursor expands on interactive elements
-document.querySelectorAll('button, .envelope-wrap').forEach(el => {
-  el.addEventListener('mouseenter', () => {
-    cur.style.width      = '20px';
-    cur.style.height     = '20px';
-    cur.style.background = '#e86a50';
-  });
-  el.addEventListener('mouseleave', () => {
-    cur.style.width      = '12px';
-    cur.style.height     = '12px';
-    cur.style.background = 'var(--peach)';
-  });
-});
-
-
-/* ──────────────────────────────────────────
    CANVAS — PARTICLES & BOKEH
 ────────────────────────────────────────── */
 const canvas = document.getElementById('bgCanvas');
