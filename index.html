@@ -9,8 +9,10 @@
 </head>
 <body>
 
-  <!-- Animated canvas background -->
   <canvas id="bgCanvas"></canvas>
+
+  <!-- Flying birds layer -->
+  <div id="birdsLayer" aria-hidden="true"></div>
 
   <!-- ══════════════════════════════
        SCENE 1 — Envelope
@@ -47,18 +49,98 @@
 
     <div class="inv-card" id="invCard">
 
-      <!-- Illustration header -->
+      <!-- ── CARD HEADER: Bridge + Flowers ── -->
       <div class="card-illus">
-        <div class="card-illus-overlay"></div>
-        <span class="bloom">🌸</span>
-        <span class="bloom">🌷</span>
-        <span class="bloom">🌺</span>
-        <span class="bloom">🌼</span>
-        <span class="bloom">🌸</span>
-        <span class="bloom">🌷</span>
-        <span class="bloom">🌻</span>
+        <!-- Sky gradient + stars -->
+        <div class="illus-sky"></div>
+
+        <!-- Spring flowers row (bottom of header) -->
+        <div class="flowers-row">
+          <span class="flower f1">🌸</span>
+          <span class="flower f2">🌷</span>
+          <span class="flower f3">🌺</span>
+          <span class="flower f4">🌼</span>
+          <span class="flower f5">🌸</span>
+          <span class="flower f6">🌷</span>
+          <span class="flower f7">🌻</span>
+          <span class="flower f8">🌺</span>
+          <span class="flower f9">🌸</span>
+        </div>
+
+        <!-- SVG Bridge silhouette -->
+        <svg class="bridge-svg" viewBox="0 0 480 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+          <!-- Water -->
+          <rect x="0" y="90" width="480" height="30" fill="rgba(100,160,200,0.18)" rx="2"/>
+          <!-- Water shimmer lines -->
+          <line x1="30"  y1="98"  x2="90"  y2="98"  stroke="rgba(255,255,255,0.12)" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="120" y1="103" x2="200" y2="103" stroke="rgba(255,255,255,0.10)" stroke-width="1"   stroke-linecap="round"/>
+          <line x1="290" y1="99"  x2="380" y2="99"  stroke="rgba(255,255,255,0.12)" stroke-width="1.5" stroke-linecap="round"/>
+          <!-- Bridge deck -->
+          <rect x="0" y="72" width="480" height="8" fill="rgba(60,30,20,0.75)" rx="2"/>
+          <!-- Left tower -->
+          <rect x="80"  y="18" width="14" height="62" fill="rgba(50,25,15,0.8)" rx="2"/>
+          <!-- Right tower -->
+          <rect x="386" y="18" width="14" height="62" fill="rgba(50,25,15,0.8)" rx="2"/>
+          <!-- Tower caps -->
+          <polygon points="80,18 87,8 94,18"  fill="rgba(200,90,60,0.7)"/>
+          <polygon points="386,18 393,8 400,18" fill="rgba(200,90,60,0.7)"/>
+          <!-- Main cables: left tower to right tower -->
+          <path d="M87,20 Q240,58 393,20" fill="none" stroke="rgba(200,140,80,0.6)" stroke-width="2.5"/>
+          <!-- Hanger cables left side -->
+          <line x1="120" y1="34" x2="120" y2="72" stroke="rgba(200,140,80,0.35)" stroke-width="1"/>
+          <line x1="150" y1="40" x2="150" y2="72" stroke="rgba(200,140,80,0.35)" stroke-width="1"/>
+          <line x1="180" y1="46" x2="180" y2="72" stroke="rgba(200,140,80,0.35)" stroke-width="1"/>
+          <line x1="210" y1="50" x2="210" y2="72" stroke="rgba(200,140,80,0.35)" stroke-width="1"/>
+          <line x1="240" y1="52" x2="240" y2="72" stroke="rgba(200,140,80,0.35)" stroke-width="1"/>
+          <!-- Hanger cables right side -->
+          <line x1="270" y1="50" x2="270" y2="72" stroke="rgba(200,140,80,0.35)" stroke-width="1"/>
+          <line x1="300" y1="46" x2="300" y2="72" stroke="rgba(200,140,80,0.35)" stroke-width="1"/>
+          <line x1="330" y1="40" x2="330" y2="72" stroke="rgba(200,140,80,0.35)" stroke-width="1"/>
+          <line x1="360" y1="34" x2="360" y2="72" stroke="rgba(200,140,80,0.35)" stroke-width="1"/>
+          <!-- Tower lights -->
+          <circle cx="87"  cy="10" r="3" fill="rgba(255,220,100,0.9)"/>
+          <circle cx="393" cy="10" r="3" fill="rgba(255,220,100,0.9)"/>
+          <!-- Bridge lights along deck -->
+          <circle cx="120" cy="72" r="2" fill="rgba(255,220,120,0.5)"/>
+          <circle cx="180" cy="72" r="2" fill="rgba(255,220,120,0.5)"/>
+          <circle cx="240" cy="72" r="2" fill="rgba(255,220,120,0.5)"/>
+          <circle cx="300" cy="72" r="2" fill="rgba(255,220,120,0.5)"/>
+          <circle cx="360" cy="72" r="2" fill="rgba(255,220,120,0.5)"/>
+          <!-- Moon -->
+          <circle cx="420" cy="28" r="14" fill="rgba(255,240,180,0.18)"/>
+          <circle cx="426" cy="24" r="11" fill="rgba(30,15,10,0.55)"/>
+          <!-- Stars -->
+          <circle cx="40"  cy="22" r="1.2" fill="rgba(255,255,220,0.7)"/>
+          <circle cx="160" cy="14" r="1"   fill="rgba(255,255,220,0.6)"/>
+          <circle cx="260" cy="10" r="1.5" fill="rgba(255,255,220,0.8)"/>
+          <circle cx="340" cy="18" r="1"   fill="rgba(255,255,220,0.6)"/>
+          <circle cx="450" cy="15" r="1.2" fill="rgba(255,255,220,0.7)"/>
+        </svg>
+
+        <!-- FaceTime UI badge -->
+        <div class="facetime-badge">
+          <div class="ft-bar">
+            <span class="ft-dot red"></span>
+            <span class="ft-dot amber"></span>
+            <span class="ft-dot green"></span>
+            <span class="ft-label">FaceTime</span>
+          </div>
+          <div class="ft-screen">
+            <span class="ft-avatar">🥰</span>
+            <div class="ft-info">
+              <span class="ft-name">Someone Special</span>
+              <span class="ft-status">Calling you… 📲</span>
+            </div>
+            <div class="ft-actions">
+              <span class="ft-btn ft-decline">✕</span>
+              <span class="ft-btn ft-accept">📹</span>
+            </div>
+          </div>
+        </div>
+
         <div class="card-illus-text">"Some moments are too beautiful to keep to myself…"</div>
       </div>
+      <!-- end .card-illus -->
 
       <!-- Main content -->
       <div class="card-content" id="cardMain">
@@ -82,7 +164,7 @@
             <span class="detail-tile-value">7:00 PM</span>
           </div>
           <div class="detail-tile">
-            <span class="detail-tile-icon">🏡</span>
+            <span class="detail-tile-icon">🌉</span>
             <span class="detail-tile-label">Where</span>
             <span class="detail-tile-value">Rooftop under the stars</span>
           </div>
@@ -93,10 +175,9 @@
           </div>
         </div>
 
-        <div class="ornament">
-          <div class="ornament-line"></div>
-          <div class="ornament-icon">✦ ✦ ✦</div>
-          <div class="ornament-line"></div>
+        <!-- Spring flowers divider -->
+        <div class="flower-divider">
+          <span>🌸</span><span>🌷</span><span>✦</span><span>🌺</span><span>🌸</span>
         </div>
 
         <p class="rsvp-heading">Will you be my date?</p>
@@ -106,7 +187,7 @@
         </div>
       </div>
 
-      <!-- Response panel (shown after RSVP) -->
+      <!-- Response panel -->
       <div class="response-screen" id="responseScreen"></div>
 
       <!-- Ribbon footer -->
@@ -125,4 +206,3 @@
   <script src="script.js"></script>
 </body>
 </html>
-
