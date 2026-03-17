@@ -129,7 +129,7 @@
           <strong>no-frills, no-pressure</strong> virtual date where you can rant your
           heart out, just talk — or not even talk at all?
           <br/><br/>
-           Maybe we can add a little dessert to the mix too.
+          Maybe we can add a little dessert to the mix too.
           After all, <em>there's always space for it.</em>
         </p>
 
@@ -163,8 +163,18 @@
 
         <p class="rsvp-heading">Will you be there?</p>
         <div class="btns">
-          <button class="btn btn-yes" onclick="rsvp('yes')">✨ Yes, I'd love to be there</button>
+          <button class="btn btn-yes" onclick="showDatePicker()">✨ Yes, I'd love to be there</button>
           <button class="btn btn-maybe" onclick="rsvp('no')">Perhaps another time…</button>
+        </div>
+
+        <!-- Date picker panel (hidden until Yes is clicked) -->
+        <div class="date-picker-panel" id="datePickerPanel">
+          <p class="dp-prompt">Pick a date and time that works for you 🌸</p>
+          <div class="dp-inputs">
+            <input type="date" id="dpDate" class="dp-input"/>
+            <input type="time" id="dpTime" class="dp-input"/>
+          </div>
+          <button class="btn btn-yes dp-confirm" onclick="confirmDate()">Confirm ✨</button>
         </div>
       </div>
 
