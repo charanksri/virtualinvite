@@ -27,7 +27,7 @@ class Particle {
     this.vy       = .18 + Math.random() * .55;
     this.alpha    = 0;
     this.maxAlpha = .15 + Math.random() * .25;
-    this.hue      = Math.random() > .5 ? '200,100,80' : '201,137,62';
+    this.hue      = Math.random() > .5 ? '180,150,60' : '100,130,200';
     this.life     = 0;
     this.maxLife  = 300 + Math.random() * 400;
   }
@@ -57,7 +57,7 @@ class Bokeh {
     this.vy       = (Math.random() - .5) * .1;
     this.life     = 0;
     this.maxLife  = 500 + Math.random() * 600;
-    this.col      = Math.random() > .5 ? '212,97,78' : '201,137,62';
+    this.col      = Math.random() > .5 ? '180,150,60' : '80,110,180';
   }
   update() {
     this.x += this.vx; this.y += this.vy; this.life++;
@@ -80,9 +80,9 @@ const bokehs    = []; for (let i = 0; i < 18; i++) bokehs.push(new Bokeh());
 function loop() {
   ctx.clearRect(0, 0, W, H);
   const bg = ctx.createLinearGradient(0, 0, W, H);
-  bg.addColorStop(0,  '#1e0c09');
-  bg.addColorStop(.5, '#2b1510');
-  bg.addColorStop(1,  '#1a0a07');
+  bg.addColorStop(0,  '#050c18');
+  bg.addColorStop(.5, '#080e1a');
+  bg.addColorStop(1,  '#060a14');
   ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
   bokehs.forEach(b    => { b.update(); b.draw(); });
   particles.forEach(p => { p.update(); p.draw(); });
@@ -127,7 +127,7 @@ loop();
    SPRING FLOWERS — CSS falling petals
 ────────────────────────────────────────── */
 (function spawnPetals() {
-  const colors = ['#f5b8a0','#f2a08e','#e8836a','#f7cdb8','#d4a07a','#c9893e','#f0c0d0'];
+  const colors = ['#c9a84c','#e0c06a','#f0d898','#b8c8e8','#8aaad4','#d4c090'];
   for (let i = 0; i < 24; i++) {
     const p = document.createElement('div');
     p.className = 'css-petal';
@@ -245,7 +245,7 @@ function openMagicEnvelope(formatted, timeFormatted) {
       </div>
       <p class="r-sub" style="margin-top:16px">Can't wait. See you then 💛</p>
       <div class="share-section">
-        <button class="share-btn save-img-btn" onclick="nativeShare('yes')">
+        <button class="share-btn save-img-btn" onclick="nativeShare('yes', '${formatted}', '${timeFormatted}')">
           <svg viewBox="0 0 24 24" fill="none" width="18" height="18">
             <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" stroke="white" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
             <polyline points="16 6 12 2 8 6" stroke="white" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
@@ -315,18 +315,20 @@ function spawnSparkles() {
 /* ──────────────────────────────────────────
    NATIVE SHARE
 ────────────────────────────────────────── */
-const shareTexts = {
-  yes: '🌸 Yes, I will be there. — Sent via a spring invite 💌',
-  no:  '🌿 Until next time. — Sent via a spring invite 💌'
-};
+function nativeShare(choice, formatted, timeFormatted) {
+  let text;
+  if (choice === 'yes' && formatted && timeFormatted) {
+    text = `🌸 Yes, I will be there!\n\n🗓️ ${formatted}\n🕯️ ${timeFormatted}, EST\n\n💌 Can't wait — see you then!`;
+  } else if (choice === 'yes') {
+    text = '🌸 Yes, I will be there! 💌';
+  } else {
+    text = '🌿 Until next time. 💌';
+  }
 
-function nativeShare(choice) {
-  const text = shareTexts[choice];
   if (navigator.share) {
     navigator.share({ title: 'My RSVP 💌', text })
-      .catch(() => {}); // user cancelled — do nothing
+      .catch(() => {});
   } else {
-    // Fallback: copy text + show toast
     navigator.clipboard.writeText(text).then(() => {
       showToast('Copied! Paste it into an Instagram DM 💌');
     }).catch(() => {
@@ -343,10 +345,10 @@ function showToast(msg) {
   t.textContent = msg;
   t.style.cssText = `
     position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(20px);
-    background:rgba(20,10,8,.92);backdrop-filter:blur(12px);
-    color:#fdf3e9;font-family:'Jost',sans-serif;font-size:.78rem;
-    font-weight:300;letter-spacing:.04em;padding:12px 22px;border-radius:50px;
-    border:1px solid rgba(201,137,62,.3);box-shadow:0 8px 32px rgba(0,0,0,.4);
+    background:rgba(8,14,26,.95);backdrop-filter:blur(12px);
+    color:#f5f0e8;font-family:'Tenor Sans',sans-serif;font-size:.72rem;
+    font-weight:400;letter-spacing:.08em;padding:12px 22px;border-radius:2px;
+    border:1px solid rgba(201,168,76,.3);box-shadow:0 8px 32px rgba(0,0,0,.5);
     z-index:9999;white-space:nowrap;max-width:90vw;
     opacity:0;transition:opacity .35s ease,transform .35s ease;
     text-overflow:ellipsis;overflow:hidden;`;
