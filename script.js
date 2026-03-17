@@ -177,17 +177,73 @@ function openEnvelope() {
 
 
 /* ──────────────────────────────────────────
-   RSVP
+   DATE PICKER — show on Yes click
 ────────────────────────────────────────── */
-function rsvp(choice) {
+function showDatePicker() {
+  // Hide the RSVP buttons, show the date picker panel
+  document.querySelector('.btns').style.display         = 'none';
+  document.querySelector('.rsvp-heading').style.display = 'none';
+  const panel = document.getElementById('datePickerPanel');
+  panel.classList.add('visible');
+
+  // Pre-fill with Charan's suggested date/time
+  document.getElementById('dpDate').value = '2025-03-17';
+  document.getElementById('dpTime').value = '19:00';
+}
+
+function confirmDate() {
+  const dateVal = document.getElementById('dpDate').value;
+  const timeVal = document.getElementById('dpTime').value;
+
+  if (!dateVal || !timeVal) {
+    showToast('Please pick both a date and a time 🌸');
+    return;
+  }
+
+  // Format date nicely
+  const dateObj    = new Date(dateVal + 'T' + timeVal);
+  const formatted  = dateObj.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+  const timeFormatted = dateObj.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+
+  // Hide card content, show response
   document.getElementById('cardMain').style.display = 'none';
   const rs = document.getElementById('responseScreen');
   rs.style.display = 'block';
 
-  if (choice === 'yes') {
+  // Step 1 — "I guessed" reveal
+  rs.innerHTML = `
+    <div class="magic-reveal" id="magicReveal">
+      <span class="r-emoji">🔮</span>
+      <div class="r-title" style="font-size:1.8rem">I had a feeling…</div>
+      <p class="r-sub">Before you picked, I made a guess.<br>Let's see if I got it right.</p>
+      <div class="sealed-envelope" id="sealedEnv" onclick="openMagicEnvelope('${formatted}', '${timeFormatted}')">
+        <span class="se-icon">💌</span>
+        <p class="se-hint">Tap to reveal my guess</p>
+      </div>
+    </div>`;
+}
+
+function openMagicEnvelope(formatted, timeFormatted) {
+  const env = document.getElementById('sealedEnv');
+  env.classList.add('opening');
+
+  setTimeout(() => {
+    const rs = document.getElementById('responseScreen');
     rs.innerHTML = `
       <span class="r-emoji">🌸</span>
-      <div class="r-title">Yes, I will be there.</div>
+      <div class="r-title">I guessed correctly!</div>
+      <p class="r-sub" style="margin-bottom:16px">I knew you'd pick…</p>
+      <div class="guess-reveal">
+        <div class="guess-tile">
+          <span class="guess-icon">🗓️</span>
+          <span class="guess-val">${formatted}</span>
+        </div>
+        <div class="guess-tile">
+          <span class="guess-icon">🕯️</span>
+          <span class="guess-val">${timeFormatted}, EST</span>
+        </div>
+      </div>
+      <p class="r-sub" style="margin-top:16px">Can't wait. See you then 💛</p>
       <div class="share-section">
         <button class="share-btn save-img-btn" onclick="nativeShare('yes')">
           <svg viewBox="0 0 24 24" fill="none" width="18" height="18">
@@ -199,21 +255,30 @@ function rsvp(choice) {
         </button>
       </div>`;
     spawnSparkles();
-  } else {
-    rs.innerHTML = `
-      <span class="r-emoji">🌿</span>
-      <div class="r-title">Until next time.</div>
-      <div class="share-section">
-        <button class="share-btn save-img-btn" onclick="nativeShare('no')">
-          <svg viewBox="0 0 24 24" fill="none" width="18" height="18">
-            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" stroke="white" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
-            <polyline points="16 6 12 2 8 6" stroke="white" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
-            <line x1="12" y1="2" x2="12" y2="15" stroke="white" stroke-width="1.9" stroke-linecap="round"/>
-          </svg>
-          Share
-        </button>
-      </div>`;
-  }
+  }, 700);
+}
+
+/* ──────────────────────────────────────────
+   RSVP — No path only
+────────────────────────────────────────── */
+function rsvp(choice) {
+  document.getElementById('cardMain').style.display = 'none';
+  const rs = document.getElementById('responseScreen');
+  rs.style.display = 'block';
+
+  rs.innerHTML = `
+    <span class="r-emoji">🌿</span>
+    <div class="r-title">Until next time.</div>
+    <div class="share-section">
+      <button class="share-btn save-img-btn" onclick="nativeShare('no')">
+        <svg viewBox="0 0 24 24" fill="none" width="18" height="18">
+          <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" stroke="white" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+          <polyline points="16 6 12 2 8 6" stroke="white" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+          <line x1="12" y1="2" x2="12" y2="15" stroke="white" stroke-width="1.9" stroke-linecap="round"/>
+        </svg>
+        Share
+      </button>
+    </div>`;
 }
 
 
