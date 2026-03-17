@@ -187,7 +187,7 @@ function showDatePicker() {
   panel.classList.add('visible');
 
   // Pre-fill with Charan's suggested date/time
-  document.getElementById('dpDate').value = '2025-03-17';
+  document.getElementById('dpDate').value = '2026-03-17';
   document.getElementById('dpTime').value = '19:00';
 }
 
